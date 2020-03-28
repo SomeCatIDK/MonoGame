@@ -91,9 +91,14 @@ namespace Microsoft.Xna.Framework
 			if (Platform != null) Platform.Log(Message);
 		}
 
-        #region IDisposable Implementation
+        public void SetHeadless(bool value)
+        {
+            Platform.Headless = value;
+        }
 
-        private bool _isDisposed;
+    #region IDisposable Implementation
+
+    private bool _isDisposed;
         public void Dispose()
         {
             Dispose(true);
@@ -673,6 +678,13 @@ namespace Microsoft.Xna.Framework
         internal void DoInitialize()
         {
             AssertNotDisposed();
+
+            if (Platform.Headless)
+            {
+                Initialize();
+                return;
+            }
+
             if (GraphicsDevice == null && graphicsDeviceManager != null)
                 _graphicsDeviceManager.CreateDevice();
 
