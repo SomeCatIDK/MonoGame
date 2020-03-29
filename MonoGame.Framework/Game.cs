@@ -537,6 +537,13 @@ namespace Microsoft.Xna.Framework
 
         protected virtual void Initialize()
         {
+            if (Platform.Headless)
+            {
+                InitializeExistingComponents();
+                LoadContent();
+                return;
+            }
+
             // TODO: This should be removed once all platforms use the new GraphicsDeviceManager
 #if !(WINDOWS && DIRECTX)
             applyChanges(graphicsDeviceManager);
